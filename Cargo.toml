@@ -1,0 +1,6 @@
+[package]
+name = "rusttar"
+version = "0.1.0"
+authors = ["Chris W Jones <chris@christopherjones.us>"]
+
+[dependencies]
