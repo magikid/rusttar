@@ -1,23 +1,4 @@
-use std::str;
-
-struct Header{
-  name:     [u8; 100],
-  mode:     [u8; 8],
-  uid:      [u8; 8],
-  gid:      [u8; 8],
-  size:     [u8; 12],
-  mtime:    [u8; 12],
-  chksum:   [u8; 8],
-  typeflag: [u8; 1],
-  linkname: [u8; 100],
-  magic:    [u8; 6],
-  version:  [u8; 2],
-  uname:    [u8; 32],
-  gname:    [u8; 32],
-  devmajor: [u8; 8],
-  devminor: [u8; 8],
-  prefix:   [u8; 155]
-}
+pub mod header;
 
 #[derive(Debug)]
 enum Typefield{
@@ -33,5 +14,9 @@ enum Typefield{
 }
 
 fn main() {
-  println!("Hello world!");
+    let h = header::Header{
+        name: String::from("asd")
+    };
+    println!("h: {:?}", h);
+    println!("Hello world!");
 }
