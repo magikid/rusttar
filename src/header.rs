@@ -1,8 +1,9 @@
+extern crate ascii;
 use std::fmt;
 
 #[derive(Debug)]
 pub struct Header{
-    name:     String
+    name:     ascii::AsciiString
     /*
     mode:     [u8; 8],
     uid:      [u8; 8],

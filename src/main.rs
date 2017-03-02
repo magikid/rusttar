@@ -1,4 +1,5 @@
 pub mod header;
+extern crate ascii;
 
 #[derive(Debug)]
 enum Typefield{
@@ -15,7 +16,7 @@ enum Typefield{
 
 fn main() {
     let h = header::Header{
-        name: String::from("asd")
+        name: ascii::AsciiString::from_ascii("asd").unwrap()
     };
     println!("h: {:?}", h);
     println!("Hello world!");

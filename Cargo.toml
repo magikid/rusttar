@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Chris W Jones <chris@christopherjones.us>"]
 
 [dependencies]
+"ascii" = "0.8.1"
