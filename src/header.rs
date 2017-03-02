@@ -1,6 +1,8 @@
+use std::fmt;
+
 #[derive(Debug)]
 pub struct Header{
-    pub name:     String
+    name:     String
     /*
     mode:     [u8; 8],
     uid:      [u8; 8],
@@ -20,7 +22,8 @@ pub struct Header{
     */
 }
 
-pub fn name(name: Header) -> [u8; 100]{
-    let output: [u8; 100] = [1; 100];
-    output
+impl fmt::Binary for Header {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{:b}", self.name.as_bytes())
+    }
 }
