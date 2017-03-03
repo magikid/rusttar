@@ -1,5 +1,8 @@
-pub mod header;
-extern crate ascii;
+mod header;
+use std::io::BufWriter;
+use std::fs::File;
+use std::io::Write;
+use header::pad_header;
 
 #[derive(Debug)]
 enum Typefield{
@@ -15,9 +18,8 @@ enum Typefield{
 }
 
 fn main() {
-    let h = header::Header{
-        name: ascii::AsciiString::from_ascii("asd").unwrap()
-    };
-    println!("h: {:?}", h);
+    let mut file = BufWriter::new(File::create("test.tar").unwrap());
+    let name = pad_header("hi".to_string(), 100);
+    file.write(name.as_slice());
     println!("Hello world!");
 }
