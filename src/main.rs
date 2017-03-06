@@ -1,7 +1,4 @@
 mod header;
-use std::io::BufWriter;
-use std::fs::File;
-use std::io::Write;
 
 #[derive(Debug)]
 enum Typefield{
