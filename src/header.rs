@@ -7,7 +7,7 @@ struct HeaderField {
 
 impl fmt::Display for HeaderField{
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let bytes_to_write = pad_field(self.value, self.length);
+        let bytes_to_write = pad_field(self.value.clone(), self.length);
 
         for byte in bytes_to_write.iter(){
             write!(f, "{:b}", byte);
@@ -29,7 +29,13 @@ mod tests{
     }
 }
 
-fn pad_header(value: Vec<u8>, length: usize) -> Vec<u8> {
-    let vec = Vec::with_capacity(length);
-    value.truncate(length)
+fn pad_field(value: Vec<u8>, length: usize) -> Vec<u8> {
+    let mut new_vec: Vec<u8> = Vec::with_capacity(length);
+    for (n, _) in  new_vec.clone().iter_mut().enumerate() {
+        match value.get(n) {
+            Some(val) => new_vec.insert(n, val.clone()),
+            None => new_vec.insert(n, 0),
+        }
+    }
+    new_vec
 }
