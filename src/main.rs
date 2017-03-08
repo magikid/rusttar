@@ -1,11 +1,14 @@
 mod header;
-use header::HeaderField;
-use std::io::prelude::*;
-use std::fs::File;
+use header::Header;
+use header::header_field::HeaderField;
 
 fn main() {
-    let name = HeaderField{value: "foo".to_string().as_bytes().to_vec(), length: 100};
-    let mut f = File::create("foo.txt").unwrap();
-    f.write_all(&(*name.as_bytes())).unwrap();
-    println!("{}", name);
+    let h = Header{
+        name: HeaderField{
+            value: "foo".to_string().as_bytes().to_vec(), 
+            length: 100
+        }
+    };
+    println!("{:?}", h);
+    println!("Hi!");
 }

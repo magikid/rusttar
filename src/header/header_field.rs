@@ -1,28 +1,9 @@
 use std::fmt;
 
+#[derive(Debug)]
 pub struct HeaderField {
     pub value: Vec<u8>,
     pub length: usize
-}
-
-impl fmt::Display for HeaderField{
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let val = truncate(self.value.clone(), self.length);
-        let pad_length = match self.length.checked_sub(val.len() * 8) {
-            Some(n) => n,
-            None => panic!("Problem with the header length")
-        };
-
-        for byte in val.iter(){
-            try!(write!(f, "{:08b}", byte));
-        }
-
-        for _ in 1..pad_length {
-            try!(write!(f, "0"));
-        }
-
-        write!(f, "{}", "\0")
-    }
 }
 
 fn truncate(value: Vec<u8>, length: usize) -> Vec<u8>{
@@ -55,7 +36,7 @@ impl HeaderField{
 
 #[cfg(test)]
 mod tests{
-    use header::HeaderField;
+    use header::header_field::HeaderField;
 
     #[test]
     fn it_pads_short_values(){
