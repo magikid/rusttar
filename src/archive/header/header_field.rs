@@ -6,6 +6,11 @@ pub struct HeaderField {
     pub length: usize
 }
 
+#[derive(Debug)]
+pub struct NameField {
+    pub value: Vec<u8>
+}
+
 fn truncate(value: Vec<u8>, length: usize) -> Vec<u8>{
     if (value.len() * 8) > length {
         // Header value is longer than allowed
@@ -28,7 +33,7 @@ impl HeaderField{
         };
 
         for _ in 1..pad_length {
-            val.push(0);
+            val.push(0u8);
         }
         val.into_boxed_slice()
     }
@@ -36,21 +41,20 @@ impl HeaderField{
 
 #[cfg(test)]
 mod tests{
-    use header::header_field::HeaderField;
+    use archive::header::header_field::HeaderField;
 
     #[test]
     fn it_pads_short_values(){
         let foobar_field = "foobar".to_string().as_bytes().to_vec();
         let h = HeaderField { value: foobar_field, length: 100 };
-        let output = format!("{}", h);
-        assert_eq!(output.len(), h.length);
+        println!("{:?}", h.as_bytes());
+        assert_eq!(h.as_bytes().len(), h.length);
     }
 
     #[test]
     fn it_truncates_long_values(){
         let foobar_field = "foobarfoobarbaz".to_string().as_bytes().to_vec();
         let h = HeaderField { value: foobar_field, length: 100 };
-        let output = format!("{}", h);
-        assert_eq!(output.len(), h.length);
+        assert_eq!(h.as_bytes().len(), h.length);
     }
 }
