@@ -5,3 +5,4 @@ authors = ["Chris W Jones <chris@christopherjones.us>"]
 
 [dependencies]
 "ascii" = "0.8.1"
+getopts = "0.2"
