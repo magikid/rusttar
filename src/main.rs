@@ -1,6 +1,24 @@
 extern crate getopts;
 use getopts::Options;
 use std::env;
+use std::fs::File;
+use std::io::Read;
+
+struct Archive {
+    file: String,
+}
+
+impl Archive {
+    pub fn listing(&self) -> Vec<String>{
+        let mut file_contents = Vec::new();
+        match File::open(self.file.clone()) {
+            Ok(mut f) => f.read_to_end(&mut file_contents),
+            Err(f) => panic!{ f.to_string() }
+        };
+        println!("{:?}", file_contents);
+        vec![self.file.clone()]
+    }
+}
 
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} FILE [options]", program);
@@ -38,5 +56,7 @@ fn list(file_argument: Option<String>){
         Some(n) => { n },
         None => { panic!("Filename problem") }
     };
+    let archive = Archive { file: filename };
+    println!("{}",archive.listing().join("\n"));
     println!("Work, work, work!");
 }
