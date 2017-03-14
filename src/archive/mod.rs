@@ -2,7 +2,7 @@ mod header;
 
 use std::fs::File;
 use std::io::Read;
-use archive::header::Header;
+use archive::header::*;
 
 pub struct Archive {
     pub file: String,
@@ -10,14 +10,14 @@ pub struct Archive {
 
 impl Archive {
     pub fn listing(&self) -> Vec<String>{
-        self.parse_headers().file_names();
+        println!("{:?}", self.parse_headers());
         vec![self.file.clone()]
     }
 
-    fn parse_headers(&self) -> Vec<Header> {
+    fn parse_headers(&self) -> Headers {
         let file_handle = self.open_file();
         file_handle.bytes()
-                   .take(512)
+                   .take(100)
                    .map(|x| x.unwrap())
                    .collect()
     }
