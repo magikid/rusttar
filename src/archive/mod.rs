@@ -17,7 +17,7 @@ impl Archive {
     fn parse_headers(&self) -> Headers {
         let file_handle = self.open_file();
         file_handle.bytes()
-                   .take(100)
+                   .take(512)
                    .map(|x| x.unwrap())
                    .collect()
     }
