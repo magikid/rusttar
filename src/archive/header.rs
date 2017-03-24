@@ -1,8 +1,9 @@
 extern crate byteorder;
 
 use std::io::Cursor;
-use archive::header::byteorder::{BigEndian, ReadBytesExt};
+use archive::header::byteorder::{BigEndian, LittleEndian, ReadBytesExt};
 use std::iter::FromIterator;
+use std::str::FromStr;
 
 #[derive(Clone,Debug)]
 pub struct Header{
@@ -39,7 +40,8 @@ impl FromIterator<u8> for Headers {
 
         let null_char = "\0";
         let name = String::from_utf8(header_bytes[0..99].to_vec()).unwrap().trim_right_matches(null_char).clone().to_string();
-        let size = Cursor::new(header_bytes[124..135].to_vec()).read_i32::<BigEndian>().unwrap();
+        println!("{:?}", header_bytes[100..136].to_vec());
+        let size = i32::from_str(&String::from_utf8(header_bytes[124..135].to_vec()).unwrap()).unwrap();
 
         let header = Header { file_name: name.to_string(), size: size };
         headers.push(header);
