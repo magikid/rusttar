@@ -18,7 +18,7 @@ impl Archive {
             .collect::<Vec<u8>>();
 
         let mut base = 0;
-        while file_bytes.len() > 0 {
+        while !file_bytes.is_empty() {
             let first_byte = match file_bytes.first() {
                 Some(x) => x.clone(),
                 None => panic!("No byte?")
@@ -29,7 +29,11 @@ impl Archive {
                 file_names.push(header.file_name());
 
                 let skip_length = calculate_blocks(header.size());
-                file_bytes.drain(..(skip_length * 512) as usize);
+                if skip_length * 512 > file_bytes.len() as i32{
+                    file_bytes.drain(..);
+                } else {
+                    file_bytes.drain(..(skip_length * 512) as usize);
+                }
             }else{
                 file_bytes.drain(..512);
                 continue

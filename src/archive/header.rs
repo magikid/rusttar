@@ -33,7 +33,7 @@ enum HeaderOffsets{
     uid = 108,
     gid = 116,
     size = 124,
-    mtime = 135
+    mtime = 136
 }
 
 impl Header {
@@ -55,7 +55,7 @@ impl Header {
 
 fn get_name(bytes: Vec<u8>) -> String{
     match String::from_utf8(bytes) {
-        Ok(x) => x.trim_right_matches("\0").to_string(),
+        Ok(x) => trim_null_chars(x),
         Err(_) => String::from("")
     }
 }
@@ -63,9 +63,18 @@ fn get_name(bytes: Vec<u8>) -> String{
 fn get_size(bytes: Vec<u8>) -> i32{
     // For some reason, GNU tar writes the file size as a string instead of a number so we
     // first parse it as a string, then parse the number from the string.
-    let size = match i32::from_str(&String::from_utf8(bytes.clone()).unwrap()) {
+    let size_string = match String::from_utf8(bytes) {
+        Ok(x) => trim_null_chars(x),
+        Err(_) => panic!("No size from string")
+    };
+
+    let size = match i32::from_str(&size_string) {
         Ok(x) => x,
         Err(_) => 0
     };
     size
+}
+
+fn trim_null_chars(cstr: String) -> String{
+    cstr.trim_right_matches("\0").to_string()
 }
