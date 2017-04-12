@@ -60,5 +60,4 @@ fn list(file_argument: Option<String>){
     };
     let archive = Archive { file: filename };
     println!("{}",archive.listing().join("\n"));
-    println!("Work, work, work!");
 }
