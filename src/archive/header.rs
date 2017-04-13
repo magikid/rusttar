@@ -68,7 +68,7 @@ fn get_size(bytes: Vec<u8>) -> i32{
         Err(_) => panic!("No size from string")
     };
 
-    let size = match i32::from_str(&size_string) {
+    let size = match i32::from_str_radix(&size_string, 8) {
         Ok(x) => x,
         Err(_) => 0
     };
