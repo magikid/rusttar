@@ -36,10 +36,10 @@ fn main() {
     opts.optflag("h", "help", "print this help menu");
     opts.optflag("t", "list", "list the archive contents");
     let matches = match opts.parse(&args[1..]) {
-        Ok(m) => { m }
-        Err(f) => { panic!(f.to_string()) }
+        Ok(m) => m,
+        Err(f) => panic!(f.to_string()),
     };
-    if matches.opt_present("h") || !matches.opt_present("f"){
+    if matches.opt_present("h") || !matches.opt_present("f") {
         print_usage(&program, opts);
         return;
     }
@@ -53,11 +53,11 @@ fn main() {
     }
 }
 
-fn list(file_argument: Option<String>){
-    let filename = match file_argument{
-        Some(n) => { n },
-        None => { panic!("Filename problem") }
+fn list(file_argument: Option<String>) {
+    let filename = match file_argument {
+        Some(n) => n,
+        None => panic!("Filename problem"),
     };
     let archive = Archive { file: filename };
-    println!("{}",archive.listing().join("\n"));
+    println!("{}", archive.listing().join("\n"));
 }
