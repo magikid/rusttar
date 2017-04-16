@@ -1,7 +1,21 @@
-extern crate byteorder;
+/*
+    Copyright (C) 2017 Chris Jones
 
-use std::iter::FromIterator;
-use std::str::FromStr;
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+extern crate byteorder;
 
 #[derive(Clone,Debug)]
 pub struct Header{
@@ -9,37 +23,19 @@ pub struct Header{
     size: i32
 }
 
-#[derive(Clone,Debug)]
-struct Headers{
-    headers: Vec<Header>
-}
-
-impl Iterator for Headers {
-    type Item = Header;
-    fn next(&mut self) -> Option<Header> {
-        self.headers.clone().into_iter().next()
-    }
-}
-
-impl Headers {
-    fn push(&mut self, elem: Header){
-        self.headers.push(elem)
-    }
-}
-
 enum HeaderOffsets{
-    name = 0,
-    mode = 100,
-    uid = 108,
-    gid = 116,
-    size = 124,
-    mtime = 136
+    Name = 0,
+    Mode = 100,
+    Uid = 108,
+    Gid = 116,
+    Size = 124,
+    Mtime = 136
 }
 
 impl Header {
     pub fn new(bytes: Vec<u8>) -> Header {
-        let file_name = get_name(bytes[(HeaderOffsets::name as usize)..(HeaderOffsets::mode as usize)].to_vec());
-        let file_size = get_size(bytes[(HeaderOffsets::size as usize)..(HeaderOffsets::mtime as usize)].to_vec());
+        let file_name = get_name(bytes[(HeaderOffsets::Name as usize)..(HeaderOffsets::Mode as usize)].to_vec());
+        let file_size = get_size(bytes[(HeaderOffsets::Size as usize)..(HeaderOffsets::Mtime as usize)].to_vec());
         let header = Header { file_name: file_name, size: file_size };
         header
     }

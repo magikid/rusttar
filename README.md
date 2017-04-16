@@ -45,3 +45,5 @@ in the header.  It is stored as a single character:
 - Extended header with metadata for the next file in the archive: 'x'
 - Vendor extension: 'A'-'Z'
 
+The project is laid out as a binary but really the binary is just a wrapper
+around a tar library.
