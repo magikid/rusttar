@@ -20,9 +20,13 @@ extern crate byteorder;
 #[derive(Clone,Debug)]
 pub struct Header {
     file_name: String,
+    mode: Vec<u8>,
+    uid: Vec<u8>,
+    gid: Vec<u8>,
     size: i32,
 }
 
+#[repr(usize)]
 enum HeaderOffsets {
     Name = 0,
     Mode = 100,
@@ -37,11 +41,19 @@ impl Header {
         let file_name = get_name(bytes[(HeaderOffsets::Name as usize)..
                                  (HeaderOffsets::Mode as usize)]
                                          .to_vec());
+        let file_mode = bytes[(HeaderOffsets::Mode as usize)..(HeaderOffsets::Uid as usize)]
+            .to_vec();
+        let file_uid = bytes[(HeaderOffsets::Uid as usize)..(HeaderOffsets::Gid as usize)].to_vec();
+        let file_gid = bytes[(HeaderOffsets::Gid as usize)..(HeaderOffsets::Size as usize)]
+            .to_vec();
         let file_size = get_size(bytes[(HeaderOffsets::Size as usize)..
                                  (HeaderOffsets::Mtime as usize)]
                                          .to_vec());
         let header = Header {
             file_name: file_name,
+            mode: file_mode,
+            uid: file_uid,
+            gid: file_gid,
             size: file_size,
         };
         header
