@@ -34,6 +34,7 @@ enum HeaderOffsets {
     Gid = 116,
     Size = 124,
     Mtime = 136,
+    Checksum = 148,
 }
 
 impl Header {
@@ -49,12 +50,16 @@ impl Header {
         let file_size = get_size(bytes[(HeaderOffsets::Size as usize)..
                                  (HeaderOffsets::Mtime as usize)]
                                          .to_vec());
+        let file_mtime = get_mtime(bytes[(HeaderOffsets::Mtime as usize)..
+                                   (HeaderOffsets::Checksum as usze)]
+                                           .to_vec());
         let header = Header {
             file_name: file_name,
             mode: file_mode,
             uid: file_uid,
             gid: file_gid,
             size: file_size,
+            mtime: file_mtime,
         };
         header
     }
