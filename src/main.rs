@@ -56,7 +56,7 @@ fn main() {
 fn list(file_argument: Option<String>) {
     let filename = match file_argument {
         Some(n) => n,
-        None => panic!("Filename problem"),
+        None => panic!("There was a problem opening the file that you gave"),
     };
     let archive = Archive { file: filename };
     println!("{}", archive.listing().join("\n"));
