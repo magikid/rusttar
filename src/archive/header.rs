@@ -24,6 +24,7 @@ pub struct Header {
     uid: Vec<u8>,
     gid: Vec<u8>,
     size: i32,
+    mtime: String
 }
 
 #[repr(usize)]
@@ -51,7 +52,7 @@ impl Header {
                                  (HeaderOffsets::Mtime as usize)]
                                          .to_vec());
         let file_mtime = get_mtime(bytes[(HeaderOffsets::Mtime as usize)..
-                                   (HeaderOffsets::Checksum as usze)]
+                                   (HeaderOffsets::Checksum as usize)]
                                            .to_vec());
         let header = Header {
             file_name: file_name,
@@ -93,6 +94,13 @@ fn get_size(bytes: Vec<u8>) -> i32 {
         Err(_) => 0,
     };
     size
+}
+
+fn get_mtime(bytes: Vec<u8>) -> String{
+    match String::from_utf8(bytes) {
+        Ok(x) => trim_null_chars(x),
+        Err(_) => String::from(""),
+    }
 }
 
 fn trim_null_chars(cstr: String) -> String {
